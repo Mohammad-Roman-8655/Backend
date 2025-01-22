@@ -11,6 +11,7 @@ app.use(express.json());
 
 const allowedOrigins = [
     'http://localhost:5173',
+    'https://project-ass-frontend.vercel.app',
 ];
 
 app.use(
@@ -38,9 +39,11 @@ async function main(){
     await mongoose.connect(process.env.MONGO_URI)
 }
 
-
 app.use('/api/auth', auth)
 app.use('/api/products', productRoutes);
+app.all('*', (req, res, next) => {
+    res.json({message: 'Page Not Found'})
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
